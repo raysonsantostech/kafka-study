@@ -10,7 +10,7 @@ Kafka Study
 ## Kafka CLI
 
 ### Download Binary
-> wget https://dlcdn.apache.org/kafka/3.9.0/kafka_2.12-3.9.0.tgz && tar -xzf kafka_2.12-3.9.0.tgz && mv kafka_2.12-3.9.0 kafka-cli2 && rm kafka_2.12-3.9.0.tgz
+> wget https://dlcdn.apache.org/kafka/3.9.0/kafka_2.12-3.9.0.tgz && tar -xzf kafka_2.12-3.9.0.tgz && rm -rf kafka-cli && mv kafka_2.12-3.9.0 kafka-cli && rm kafka_2.12-3.9.0.tgz
 
 ### Configuração do Ambiente CLI
 
@@ -38,6 +38,7 @@ source ~/.zshrc
 ```bash
 kafka-topics.sh --list --bootstrap-server localhost:9092
 ```
+
 
 ##
 

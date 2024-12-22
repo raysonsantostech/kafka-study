@@ -54,5 +54,10 @@ services:
       CONSOLE_CONFIG_FILE: |
         kafka:
           brokers: ["kafka-broker-1:19091"]
+        sasl:
+          enabled: false
+          username: superuser
+          password: secret
+          mechanism: SCRAM-SHA-512
     depends_on:
       - kafka-broker-1
