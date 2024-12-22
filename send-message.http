@@ -1,0 +1,2 @@
+### Enviar 100 requisições para o endpoint /api/message/publish
+GET http://localhost:8080/api/message/publish

@@ -27,8 +27,8 @@ services:
       KAFKA_CFG_ALLOW_EVERYONE_IF_NO_ACL_FOUND: true
     healthcheck:
       test: kafka-topics.sh --list --bootstrap-server localhost:19091 || exit 1
-      interval: 30s
-      timeout: 10s
+      interval: 15s
+      timeout: 5s
       retries: 6
     depends_on:
       - zookeeper
