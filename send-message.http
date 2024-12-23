@@ -1,2 +1,3 @@
 ### Enviar 100 requisições para o endpoint /api/message/publish
-GET http://localhost:8080/api/message/publish
+
+GET http://localhost:8080/api/message/publish?message=Hello,%20Broker%20Unavailable%2001

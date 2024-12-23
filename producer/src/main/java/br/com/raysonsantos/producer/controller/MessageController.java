@@ -3,6 +3,7 @@ package br.com.raysonsantos.producer.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import br.com.raysonsantos.producer.model.Message;
 import br.com.raysonsantos.producer.service.ProducerService;
 
 @RestController
@@ -13,9 +14,9 @@ public class MessageController {
     private ProducerService producerService;
 
     @GetMapping("/publish")
-    public void publishMessage() {
+    public void publishMessage(@RequestParam String message) {
         System.out.println("Publishing message from GET...");
-        producerService.publishMessage();
+        producerService.publishMessage(new Message(message));
     }
 }
 
