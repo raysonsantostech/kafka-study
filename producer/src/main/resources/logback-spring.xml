@@ -1,0 +1,17 @@
+<configuration>
+
+    <!-- Console appender para exibir os logs no terminal -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} - %5p [%t] --- %logger{36} : %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Definição do nível de log para Kafka -->
+    <logger name="org.apache.kafka.clients.producer" level="DEBUG"/>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+</configuration>

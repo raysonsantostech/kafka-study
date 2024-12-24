@@ -1,0 +1,37 @@
+### Variables 
+@apiurl = http://localhost:8080/api/message
+
+### docker compose pause kafka-broker-1
+
+### POST Publish Message
+POST {{apiurl}}/publish
+Content-Type: application/json
+
+{
+   "message":"POST: Hello, Broker Unavailable 22"
+}
+
+### POST Publish Message RANDOM
+POST {{apiurl}}/publish/random
+Content-Type: application/json
+{}
+
+### POST Publish Message @RETRYABLE
+POST {{apiurl}}/publish/retryable
+Content-Type: application/json
+
+{
+   "message":"POST: Hello, Broker Unavailable [@RETRYABLE]
+}
+
+### POST Publish Message RETRY TEMPLATE
+POST {{apiurl}}/publish/retrytemplate
+Content-Type: application/json
+
+{
+   "message":"POST: Hello, Broker Unavailable [RETRY_TEMPLATE]
+}
+
+
+### GET Publish Message
+GET {{apiurl}}/publish?message=GET: Hello, Broker Unavailable

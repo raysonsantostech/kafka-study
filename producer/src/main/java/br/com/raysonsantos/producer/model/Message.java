@@ -5,11 +5,12 @@ import java.util.Random;
 import java.util.UUID;
 
 public class Message {
-
-    private String identifier = UUID.randomUUID().toString();
-    public String message;
+    
     private final List<String> names = List.of("João", "Maria", "Pedro", "Ana", "Carlos");
     private final Random random = new Random();
+
+    private String identifier = UUID.randomUUID().toString();
+    private String message;
 
     public Message() {
         this.message = "Hello, " + getName();

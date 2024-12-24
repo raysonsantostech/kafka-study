@@ -1,19 +1,15 @@
 package br.com.raysonsantos.producer.service;
 
+import java.util.concurrent.ExecutionException;
+
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.kafka.annotation.RetryableTopic;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.retry.support.RetryTemplate;
 import org.springframework.stereotype.Service;
 
 import br.com.raysonsantos.producer.model.Message;
-
-import org.apache.kafka.common.errors.TimeoutException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Service
 public class ProducerService {
@@ -22,42 +18,41 @@ public class ProducerService {
 
     private static final String TOPIC_HELLO = "hello-topic";
     private final KafkaTemplate<String, String> kafkaTemplate;
+    private final RetryTemplate retryTemplate;
 
-    public ProducerService(KafkaTemplate<String, String> kafkaTemplate) {
+    public ProducerService(KafkaTemplate<String, String> kafkaTemplate, RetryTemplate retryTemplate) {
         this.kafkaTemplate = kafkaTemplate;
+        this.retryTemplate = retryTemplate;
     }
 
     public void publishMessage() {
         var message = new Message();
-        kafkaTemplate.send(TOPIC_HELLO, message.getIdentifier(), message.getMessage());
-        System.out.println("Publish message: " + message);
+
+        logger.info("[PUBLISH MESSAGE RANDOM] Mensage: {}", message);
+        try {
+            kafkaTemplate.send(TOPIC_HELLO, message.getIdentifier(), message.getMessage()).get();
+        } catch (InterruptedException | ExecutionException e) {
+            System.out.println("MARIAMARIAMARIAMARIAMARIAMARIAMARIA");
+        }
     }
 
-
-    @Autowired
-    private RetryTemplate retryTemplate;
-
-//    @RetryableTopic(
-//        backoff = @Backoff(value = 3000L),
-//        attempts = "5",
-//        autoCreateTopics = "false",
-//        include = RuntimeException.class)
-
-    @Retryable(
-        value = { TimeoutException.class },
-        maxAttempts = 5,
-        backoff = @Backoff(delay = 1000)
-    )
     public void publishMessage(Message message) {
-        logger.info("Tentando enviar mensagem: {}", message);
+        logger.info("[PUBLISH MESSAGE @param:message] Mensage: {}", message);
+        kafkaTemplate.send(TOPIC_HELLO, message.getIdentifier(), message.getMessage());
+    }
+
+    @Retryable
+    public void publishMessageRetryable(Message message) {
+        logger.info("[PUBLISH MESSAGE @RETRYABLE] Mensage: {}", message);
+        kafkaTemplate.send(TOPIC_HELLO, message.getIdentifier(), message.getMessage());
+    }
+
+    public void publishMessageRetryTemplate(Message message) {
+        logger.info("[PUBLISH MESSAGE RETRY TEMPLATE] Mensage: {}", message);
 
         retryTemplate.execute(context -> {
             kafkaTemplate.send(TOPIC_HELLO, message.getIdentifier(), message.getMessage());
             return null;
         });
-
-
-        //kafkaTemplate.send(TOPIC_HELLO, message.getIdentifier(), message.getMessage());
-        System.out.println("Publish message: " + message);
     }
 }

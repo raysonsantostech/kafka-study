@@ -12,3 +12,8 @@ docker run -p 8080:8080
 -e KAFKA_SASL_PASSWORD=xxx 
 
 docker.redpanda.com/redpandadata/console:latest
+
+org.apache.kafka.common.config.ConfigException: 
+
+delivery.timeout.ms should be equal to or larger than linger.ms + request.timeout.ms
+  
